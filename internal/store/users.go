@@ -6,11 +6,13 @@ import (
 )
 
 type User struct {
-	ID         int
-	Username   string `binding:"required,min=3,max=30"`
-	Password   string `binding:"required,min=8"`
-	CreatedAt  time.Time
-	ModifiedAt time.Time
+	ID             int
+	Username       string `binding:"required,min=3,max=30"`
+	Password       string `binding:"required,min=8"`
+	HashedPassword []byte `json:"-"`
+	Salt           []byte `json:"-"`
+	CreatedAt      time.Time
+	ModifiedAt     time.Time
 }
 
 func AddUser(user *User) error {
