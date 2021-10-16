@@ -1,6 +1,10 @@
 package store
 
-import "time"
+import (
+	"time"
+
+	"github.com/rs/zerolog/log"
+)
 
 type Invoice struct {
 	ID                            int
@@ -19,4 +23,13 @@ type Invoice struct {
 	CreatedAt                     time.Time
 	ModifiedAt                    time.Time
 	UserID                        int `json:"-"`
+}
+
+func AddInvoice(user *User, invoice *Invoice) error {
+	invoice.UserID = user.ID
+	_, err := db.Model(invoice).Returning("*").Insert()
+	if err != nil {
+		log.Error().Err(err).Msg("Error inserting new invoice")
+	}
+	return err
 }
