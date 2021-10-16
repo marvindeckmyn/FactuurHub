@@ -1,7 +1,10 @@
 package main
 
-import "factuurhub/internal/server"
+import (
+	"factuurhub/internal/conf"
+	"factuurhub/internal/server"
+)
 
 func main() {
-	server.Start()
+	server.Start(conf.NewConfig())
 }

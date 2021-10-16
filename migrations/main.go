@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"os"
 
+	"factuurhub/internal/conf"
 	"factuurhub/internal/database"
 	"factuurhub/internal/store"
 
@@ -27,7 +28,7 @@ func main() {
 	flag.Usage = usage
 	flag.Parse()
 
-	store.SetDBConnection(database.NewDBOptions())
+	store.SetDBConnection(database.NewDBOptions(conf.NewConfig()))
 	db := store.GetDBConnection()
 
 	oldVersion, newVersion, err := migrations.Run(db, flag.Args()...)
