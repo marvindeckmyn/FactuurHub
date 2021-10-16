@@ -1,11 +1,12 @@
-package main
+package server
 
 import (
-	"github.com/gin-gonic/gin"
 	"net/http"
+
+	"github.com/gin-gonic/gin"
 )
 
-func main() {
+func setRouter() *gin.Engine {
 	router := gin.Default()
 
 	api := router.Group("/api")
@@ -16,5 +17,6 @@ func main() {
 	}
 
 	router.NoRoute(func(ctx *gin.Context) { ctx.JSON(http.StatusNotFound, gin.H{}) })
-	router.Run(":8080")
+
+	return router
 }
