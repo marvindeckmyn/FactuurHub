@@ -16,6 +16,7 @@ type User struct {
 	Salt           []byte `json:"-"`
 	CreatedAt      time.Time
 	ModifiedAt     time.Time
+	Invoices       []*Invoice `json:"-" pg:"fk:user_id,rel:has-many,on_delete:CASCADE"`
 }
 
 func AddUser(user *User) error {
