@@ -63,3 +63,11 @@ func UpdateInvoice(invoice *Invoice) error {
 	}
 	return err
 }
+
+func DeleteInvoice(invoice *Invoice) error {
+	_, err := db.Model(invoice).WherePK().Delete()
+	if err != nil {
+		log.Error().Err(err).Msg("Error deleting invoice")
+	}
+	return err
+}

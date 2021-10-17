@@ -4,6 +4,7 @@ import (
 	"errors"
 	"factuurhub/internal/store"
 	"net/http"
+	"strconv"
 	"time"
 
 	"github.com/gin-gonic/gin"
@@ -93,4 +94,32 @@ func updateInvoice(ctx *gin.Context) {
 		"msg":  "Invoice updated successfully",
 		"data": jsonInvoice,
 	})
+}
+
+func deleteInvoice(ctx *gin.Context) {
+	paramID := ctx.Param("id")
+	id, err := strconv.Atoi(paramID)
+	if err != nil {
+		ctx.AbortWithStatusJSON(http.StatusBadRequest, gin.H{"error": "Not valid ID"})
+		return
+	}
+	user, err := currentUser(ctx)
+	if err != nil {
+		ctx.AbortWithStatusJSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
+	invoice, err := store.FetchInvoice(id)
+	if err != nil {
+		ctx.AbortWithStatusJSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
+	if user.ID != invoice.UserID {
+		ctx.AbortWithStatusJSON(http.StatusForbidden, gin.H{"error": "Not authorized"})
+		return
+	}
+	if err := store.DeleteInvoice(invoice); err != nil {
+		ctx.AbortWithStatusJSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
+	ctx.JSON(http.StatusOK, gin.H{"msg": "Invoice deleted successfully"})
 }
