@@ -61,7 +61,6 @@ function RegistrationForm(props) {
     }
 
     const redirectToLogin = () => {
-        props.updateTitle('Factuurhub - Login');
         props.history.push('/login');
     }
     return(
