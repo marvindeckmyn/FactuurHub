@@ -6,6 +6,7 @@ require github.com/gin-gonic/gin v1.7.3
 
 require (
 	github.com/cristalhq/jwt/v3 v3.1.0 // indirect
+	github.com/gin-contrib/cors v1.3.1 // indirect
 	github.com/gin-contrib/sse v0.1.0 // indirect
 	github.com/go-pg/migrations/v8 v8.1.0 // indirect
 	github.com/go-pg/pg/v10 v10.10.6 // indirect
