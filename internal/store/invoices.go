@@ -44,3 +44,22 @@ func FetchUserInvoices(user *User) error {
 	}
 	return err
 }
+
+func FetchInvoice(id int) (*Invoice, error) {
+	invoice := new(Invoice)
+	invoice.ID = id
+	err := db.Model(invoice).WherePK().Select()
+	if err != nil {
+		log.Error().Err(err).Msg("Error fetching invoice")
+		return nil, err
+	}
+	return invoice, nil
+}
+
+func UpdateInvoice(invoice *Invoice) error {
+	_, err := db.Model(invoice).WherePK().UpdateNotZero()
+	if err != nil {
+		log.Error().Err(err).Msg("Error updating invoice")
+	}
+	return err
+}

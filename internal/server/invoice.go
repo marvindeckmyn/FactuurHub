@@ -4,6 +4,7 @@ import (
 	"errors"
 	"factuurhub/internal/store"
 	"net/http"
+	"time"
 
 	"github.com/gin-gonic/gin"
 	"github.com/rs/zerolog/log"
@@ -60,5 +61,36 @@ func indexInvoices(ctx *gin.Context) {
 	ctx.JSON(http.StatusOK, gin.H{
 		"msg":  "Invoices fetched successfully",
 		"data": user.Invoices,
+	})
+}
+
+func updateInvoice(ctx *gin.Context) {
+	jsonInvoice := new(store.Invoice)
+	if err := ctx.Bind(jsonInvoice); err != nil {
+		ctx.AbortWithStatusJSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+	user, err := currentUser(ctx)
+	if err != nil {
+		ctx.AbortWithStatusJSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
+	dbInvoice, err := store.FetchInvoice(jsonInvoice.ID)
+	if err != nil {
+		ctx.AbortWithStatusJSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
+	if user.ID != dbInvoice.UserID {
+		ctx.AbortWithStatusJSON(http.StatusForbidden, gin.H{"error": "Not authorized"})
+		return
+	}
+	jsonInvoice.ModifiedAt = time.Now()
+	if err := store.UpdateInvoice(jsonInvoice); err != nil {
+		ctx.AbortWithStatusJSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
+	ctx.JSON(http.StatusOK, gin.H{
+		"msg":  "Invoice updated successfully",
+		"data": jsonInvoice,
 	})
 }
