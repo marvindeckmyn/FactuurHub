@@ -21,6 +21,7 @@ type Invoice struct {
 	BtwPercentage                 int     `binding:"required"`
 	BtwPrijs                      float64 `binding:"required"`
 	Totaal                        float64 `binding:"required"`
+	Betalingsstatus               int     `binding:"required"`
 	CreatedAt                     time.Time
 	ModifiedAt                    time.Time
 	UserID                        int `json:"-"`

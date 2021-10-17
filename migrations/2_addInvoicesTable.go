@@ -23,6 +23,7 @@ func init() {
 			btw_percentage INT NOT NULL,
 			btw_prijs DOUBLE PRECISION NOT NULL,
 			totaal DOUBLE PRECISION NOT NULL,
+			betalingsstatus INT NOT NULL,
 			created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
 			modified_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
 			user_id INT references users ON DELETE CASCADE
