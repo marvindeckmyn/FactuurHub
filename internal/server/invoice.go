@@ -46,3 +46,19 @@ func currentUser(ctx *gin.Context) (*store.User, error) {
 	}
 	return user, nil
 }
+
+func indexInvoices(ctx *gin.Context) {
+	user, err := currentUser(ctx)
+	if err != nil {
+		ctx.AbortWithStatusJSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
+	if err := store.FetchUserInvoices(user); err != nil {
+		ctx.AbortWithStatusJSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
+	ctx.JSON(http.StatusOK, gin.H{
+		"msg":  "Invoices fetched successfully",
+		"data": user.Invoices,
+	})
+}

@@ -3,6 +3,7 @@ package store
 import (
 	"time"
 
+	"github.com/go-pg/pg/v10/orm"
 	"github.com/rs/zerolog/log"
 )
 
@@ -30,6 +31,16 @@ func AddInvoice(user *User, invoice *Invoice) error {
 	_, err := db.Model(invoice).Returning("*").Insert()
 	if err != nil {
 		log.Error().Err(err).Msg("Error inserting new invoice")
+	}
+	return err
+}
+
+func FetchUserInvoices(user *User) error {
+	err := db.Model(user).Relation("Invoices", func(q *orm.Query) (*orm.Query, error) {
+		return q.Order("id ASC"), nil
+	}).Select()
+	if err != nil {
+		log.Error().Err(err).Msg("Error fetching user's posts")
 	}
 	return err
 }
