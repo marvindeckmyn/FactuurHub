@@ -1,6 +1,6 @@
 import React, {useState} from "react";
 import axios from 'axios';
-import {API_BASE_URL} from '../../constants/apiConstants';
+import {API_BASE_URL, ACCESS_TOKEN} from '../../constants/apiConstants';
 import { withRouter } from "react-router-dom";
 function RegistrationForm(props) {
 
@@ -42,6 +42,7 @@ function RegistrationForm(props) {
                             ...prevState,
                             'successMessage' : 'Registratie succesvol. Je wordt gestuurd naar de startpagina...'
                         }))
+                        localStorage.setItem(ACCESS_TOKEN, response.data.jwt);
                         redirectToHome();
                         props.showError(null)
                     } else {

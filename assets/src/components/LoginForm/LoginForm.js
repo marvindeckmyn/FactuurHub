@@ -1,6 +1,6 @@
 import React, {useState} from "react";
 import axios from 'axios';
-import { API_BASE_URL } from "../../constants/apiConstants";
+import { API_BASE_URL, ACCESS_TOKEN } from "../../constants/apiConstants";
 import { withRouter } from "react-router-dom";
 
 function LoginForm(props) {
@@ -32,6 +32,7 @@ function LoginForm(props) {
                         ...prevState,
                         'successMessage' : 'Login succesvol. Je wordt naar de startpagina gestuurd...'
                     }))
+                    localStorage.setItem(ACCESS_TOKEN, response.data.jwt);
                     redirectToHome();
                     props.showError(null)
                 }
