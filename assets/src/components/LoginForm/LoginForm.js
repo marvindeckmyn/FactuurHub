@@ -32,7 +32,7 @@ function LoginForm(props) {
                         ...prevState,
                         'successMessage' : 'Login succesvol. Je wordt naar de startpagina gestuurd...'
                     }))
-                    localStorage.setItem(ACCESS_TOKEN, response.data.jwt);
+                    localStorage.setItem(ACCESS_TOKEN, `Bearer ${response.data.jwt}`);
                     redirectToHome();
                     props.showError(null)
                 }

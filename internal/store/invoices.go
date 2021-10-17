@@ -37,7 +37,7 @@ func AddInvoice(user *User, invoice *Invoice) error {
 }
 
 func FetchUserInvoices(user *User) error {
-	err := db.Model(user).Relation("Invoices", func(q *orm.Query) (*orm.Query, error) {
+	err := db.Model(user).WherePK().Relation("Invoices", func(q *orm.Query) (*orm.Query, error) {
 		return q.Order("id ASC"), nil
 	}).Select()
 	if err != nil {

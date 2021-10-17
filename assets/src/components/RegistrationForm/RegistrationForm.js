@@ -42,7 +42,7 @@ function RegistrationForm(props) {
                             ...prevState,
                             'successMessage' : 'Registratie succesvol. Je wordt gestuurd naar de startpagina...'
                         }))
-                        localStorage.setItem(ACCESS_TOKEN, response.data.jwt);
+                        localStorage.setItem(ACCESS_TOKEN, `Bearer ${response.data.jwt}`);
                         redirectToHome();
                         props.showError(null)
                     } else {

@@ -13,7 +13,7 @@ import (
 type User struct {
 	ID             int
 	Username       string `binding:"required,min=3,max=30"`
-	Password       string `binding:"required,min=8"`
+	Password       string `pg:"-" binding:"required,min=7"`
 	HashedPassword []byte `json:"-"`
 	Salt           []byte `json:"-"`
 	CreatedAt      time.Time

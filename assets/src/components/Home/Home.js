@@ -5,7 +5,7 @@ import axios from 'axios'
 function Home(props) {
 
     useEffect(() => {
-        axios.get(API_BASE_URL+"/invoices", { headers: { 'token': localStorage.getItem(ACCESS_TOKEN) }})
+        axios.get(API_BASE_URL+"/invoices", { headers: { 'Authorization': localStorage.getItem(ACCESS_TOKEN) }})
         .then(function (response) {
             if(response.status !== 200) {
                 redirectToLogin()
