@@ -48,6 +48,7 @@ function Home(props) {
     }
 
     function redirectToLogin() {
+        localStorage.setItem(ACCESS_TOKEN, "");
         props.history.push('/login');
     }
 
@@ -78,6 +79,10 @@ function Home(props) {
 
             <div className="voegFactuurMessage">
                 <button className="voegFactuurText" onClick={() => redirectToFactuurToevoegen()}>Voeg een factuur toe</button>
+            </div>
+
+            <div className="logoutMessage">
+                <button className="logoutText" onClick={() => redirectToLogin()}>Logout</button>
             </div>
         </div>
     )
