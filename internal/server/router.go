@@ -23,6 +23,7 @@ func setRouter() *gin.Engine {
 	authorized.Use(authorization)
 	{
 		authorized.GET("/invoices", indexInvoices)
+		authorized.GET("/invoices/:id", indexInvoice)
 		authorized.POST("/invoices", createInvoice)
 		authorized.PUT("/invoices", updateInvoice)
 		authorized.DELETE("/invoices/:id", deleteInvoice)

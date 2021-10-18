@@ -65,6 +65,33 @@ func indexInvoices(ctx *gin.Context) {
 	})
 }
 
+func indexInvoice(ctx *gin.Context) {
+	paramID := ctx.Param("id")
+	id, err := strconv.Atoi(paramID)
+	if err != nil {
+		ctx.AbortWithStatusJSON(http.StatusBadRequest, gin.H{"error": "Not valid ID"})
+		return
+	}
+	user, err := currentUser(ctx)
+	if err != nil {
+		ctx.AbortWithStatusJSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
+	invoice, err := store.FetchInvoice(id)
+	if err != nil {
+		ctx.AbortWithStatusJSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
+	if user.ID != invoice.UserID {
+		ctx.AbortWithStatusJSON(http.StatusForbidden, gin.H{"error": "Not authorized"})
+		return
+	}
+	ctx.JSON(http.StatusOK, gin.H{
+		"msg":  "Invoice fetched successfully",
+		"data": invoice,
+	})
+}
+
 func updateInvoice(ctx *gin.Context) {
 	jsonInvoice := new(store.Invoice)
 	if err := ctx.Bind(jsonInvoice); err != nil {

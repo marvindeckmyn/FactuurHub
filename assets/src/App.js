@@ -3,6 +3,8 @@ import Header from './components/Header/Header';
 import LoginForm from './components/LoginForm/LoginForm';
 import RegistrationForm from './components/RegistrationForm/RegistrationForm';
 import Home from './components/Home/Home';
+import Factuur from './components/Factuur/Factuur';
+import FactuurForm from './components/Factuur/FactuurForm';
 import PrivateRoute from './utils/PrivateRoute';
 import {
   BrowserRouter as Router,
@@ -10,7 +12,6 @@ import {
   Route
 } from "react-router-dom";
 import Alert from './components/Alert/Alert';
-import FactuurForm from './components/Factuur/FactuurForm';
 
 function App() {
   
@@ -32,6 +33,9 @@ function App() {
           </Route>
           <PrivateRoute path="/home">
             <Home/>
+          </PrivateRoute>
+          <PrivateRoute path="/factuur">
+            <Factuur />
           </PrivateRoute>
           <PrivateRoute path="/voegfactuurtoe">
             <FactuurForm showError={updateErrorMessage} />

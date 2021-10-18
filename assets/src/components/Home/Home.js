@@ -55,19 +55,24 @@ function Home(props) {
         props.history.push('/voegfactuurtoe');
     }
 
+    function redirectToFactuur(id) {
+        localStorage.setItem("factuurId", id);
+        props.history.push('/factuur');
+    }
+
     return (
         <div className="mt-2">
             <h1>Facturen</h1>
             <h2>Te betalen</h2>
             <ul>
                 {
-                    unpaidInvoices.map(unpaidInvoice => <li key={unpaidInvoice.ID}>{unpaidInvoice.OndernemingNaam} ({unpaidInvoice.Factuurnummer})</li>)
+                    unpaidInvoices.map(unpaidInvoice => <li key={unpaidInvoice.ID} onClick={() => redirectToFactuur(unpaidInvoice.ID)}>{unpaidInvoice.OndernemingNaam} ({unpaidInvoice.Factuurnummer})</li>)
                 }
             </ul>
             <h2>Betaald</h2>
             <ul>
                 {
-                    paidInvoices.map(paidInvoice => <li key={paidInvoice.ID}>{paidInvoice.OndernemingNaam} ({paidInvoice.Factuurnummer})</li>)
+                    paidInvoices.map(paidInvoice => <li key={paidInvoice.ID} onClick={() => redirectToFactuur(paidInvoice.ID)}>{paidInvoice.OndernemingNaam} ({paidInvoice.Factuurnummer})</li>)
                 }
             </ul>
 
