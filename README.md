@@ -11,7 +11,7 @@ Factuurhub is een platform waar je je facturen kan bijhouden en sorteren op beta
 * `go run *.go init`
 * `go run *.go up`
 5. Start de Golang server op
-* `cd /`
+* `cd ..`
 * `go run cmd\factuurhub\main.go`
 6. Start de React app
 * `npm install`
