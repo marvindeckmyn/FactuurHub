@@ -72,7 +72,7 @@ function Home(props) {
             </ul>
 
             <div className="voegFactuurMessage">
-                <span className="voegFactuurText" onClick={() => redirectToFactuurToevoegen()}>Voeg een factuur toe</span>
+                <button className="voegFactuurText" onClick={() => redirectToFactuurToevoegen()}>Voeg een factuur toe</button>
             </div>
         </div>
     )

@@ -91,7 +91,7 @@ function RegistrationForm(props) {
 
             <div classname="mt-2">
                 <span>Heb je al een account?</span>
-                <span className="loginText" onClick={() => redirectToLogin()}>Login</span>
+                <button className="loginText" onClick={() => redirectToLogin()}>Login</button>
             </div>
         </div>
     )
