@@ -31,6 +31,10 @@ function Factuur(props) {
         props.history.push('/login');
     }
 
+    const redirectToHome = () => {
+        props.history.push('/home');
+    }
+
     return (
         <div className="mt-2">
             <h1>Factuur</h1>
@@ -49,6 +53,10 @@ function Factuur(props) {
                 <li>Totaal: {invoice.Totaal}</li>
                 <li>Betalingsstatus: {betalingsstatus}</li>
             </ul>
+
+            <div classname="mt-2">
+                <button className="homeText" onClick={() => redirectToHome()}>Home</button>
+            </div>
         </div>
     )
 }
