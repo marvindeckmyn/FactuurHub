@@ -19,5 +19,6 @@ Factuurhub is een platform waar je je facturen kan bijhouden en sorteren op beta
 * Druk de Windows knop + R in
 * Voer dit in: `chrome.exe --user-data-dir="C://Chrome dev session" --disable-web-security`
 * Druk op OK
+* Surf naar de localhost van de React app
 
 Veel plezier!
