@@ -14,8 +14,9 @@ Factuurhub is een platform waar je je facturen kan bijhouden en sorteren op beta
 * `cd ..`
 * `go run cmd/factuurhub/main.go`
 6. Start de React app
+* `cd assets`
 * `npm install`
-* `npm start /assets`
+* `npm start`
 7. Als je in localhost werkt, moet je Google Chrome opstarten zonder CORS
 * Druk de Windows knop + R in
 * Voer dit in: `chrome.exe --user-data-dir="C://Chrome dev session" --disable-web-security`
