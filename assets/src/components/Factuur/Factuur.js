@@ -8,57 +8,76 @@ function Factuur(props) {
     const [betalingsstatus, setBetalingsstatus] = useState([])
 
     useEffect(() => {
-        axios.get(API_BASE_URL+"/invoices/"+localStorage.getItem("factuurId"), { headers: { 'Authorization': localStorage.getItem(ACCESS_TOKEN) }})
-        .then(function (response) {
-            setInvoice(response.data.data);
+        axios.get(API_BASE_URL + "/invoices/" + localStorage.getItem("factuurId"), { headers: { 'Authorization': localStorage.getItem(ACCESS_TOKEN) } })
+            .then(function (response) {
+                setInvoice(response.data.data);
 
-            if (invoice.Betalingsstatus === 1) {
-                setBetalingsstatus("Te betalen")
-            } else {
-                setBetalingsstatus("Betaald")
-            }
+                if (response.data.data.Betalingsstatus === 1) {
+                    setBetalingsstatus("Te betalen")
+                } else {
+                    setBetalingsstatus("Betaald")
+                }
 
-            if(response.status !== 200) {
+                if (response.status !== 200) {
+                    redirectToLogin()
+                }
+            })
+            .catch(function (error) {
                 redirectToLogin()
-            }
-        })
-        .catch(function (error) {
-            redirectToLogin()
-        });
+            });
     }, [])
 
-    function redirectToLogin() {
-        props.history.push('/login');
+    function deleteInvoice() {
+        axios.delete(API_BASE_URL + "/invoices/" + localStorage.getItem("factuurId"), { headers: { 'Authorization': localStorage.getItem(ACCESS_TOKEN) } })
+            .then(function (response) {
+                if (response.status === 200) {
+                    redirectToHome();
+                    props.showError(null)
+                } else {
+                    props.showError("Error");
+                }
+            })
+            .catch(function (error) {
+                console.log(error)
+            });
     }
 
-    const redirectToHome = () => {
-        props.history.push('/home');
-    }
+function redirectToLogin() {
+    props.history.push('/login');
+}
 
-    return (
-        <div className="mt-2">
-            <h1>Factuur</h1>
-            <ul>
-                <li>Factuurnummer: {invoice.Factuurnummer}</li>
-                <li>Factuurdatum: {invoice.Factuurdatum}</li>
-                <li>Vervaldatum: {invoice.Vervaldatum}</li>
-                <li>Naam onderneming: {invoice.OndernemingNaam}</li>
-                <li>Adres onderneming: {invoice.OndernemingAdres}</li>
-                <li>BTW nummer onderneming: {invoice.OndernemingBtwNummer}</li>
-                <li>Bankrekeningnummer onderneming: {invoice.OndernemingBankrekeningNummer}</li>
-                <li>Goederen: {invoice.Goederen}</li>
-                <li>Subtotaal: {invoice.Subtotaal}</li>
-                <li>BTW %: {invoice.BtwPercentage}</li>
-                <li>BTW prijs: {invoice.BtwPrijs}</li>
-                <li>Totaal: {invoice.Totaal}</li>
-                <li>Betalingsstatus: {betalingsstatus}</li>
-            </ul>
+const redirectToHome = () => {
+    props.history.push('/home');
+}
 
-            <div classname="mt-2">
-                <button className="homeText" onClick={() => redirectToHome()}>Home</button>
-            </div>
+return (
+    <div className="mt-2">
+        <h1>Factuur</h1>
+        <ul>
+            <li>Factuurnummer: {invoice.Factuurnummer}</li>
+            <li>Factuurdatum: {invoice.Factuurdatum}</li>
+            <li>Vervaldatum: {invoice.Vervaldatum}</li>
+            <li>Naam onderneming: {invoice.OndernemingNaam}</li>
+            <li>Adres onderneming: {invoice.OndernemingAdres}</li>
+            <li>BTW nummer onderneming: {invoice.OndernemingBtwNummer}</li>
+            <li>Bankrekeningnummer onderneming: {invoice.OndernemingBankrekeningNummer}</li>
+            <li>Goederen: {invoice.Goederen}</li>
+            <li>Subtotaal: {invoice.Subtotaal}</li>
+            <li>BTW %: {invoice.BtwPercentage}</li>
+            <li>BTW prijs: {invoice.BtwPrijs}</li>
+            <li>Totaal: {invoice.Totaal}</li>
+            <li>Betalingsstatus: {betalingsstatus}</li>
+        </ul>
+
+        <div classname="mt-2">
+            <button className="deleteText" onClick={() => deleteInvoice()}>Delete</button>
         </div>
-    )
+
+        <div classname="mt-2">
+            <button className="homeText" onClick={() => redirectToHome()}>Home</button>
+        </div>
+    </div>
+)
 }
 
 export default withRouter(Factuur)
