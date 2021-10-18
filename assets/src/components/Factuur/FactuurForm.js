@@ -124,7 +124,7 @@ function FactuurForm(props) {
 
                 <div className="form-group text-left">
                     <label htmlFor="btwPercentage">BTW %</label>
-                    <input type="text" className="form-control" id="btwPercentage" value={state.btwPercentage} onChange={handleChange} required/>
+                    <input type="number" className="form-control" id="btwPercentage" value={state.btwPercentage} onChange={handleChange} required/>
                 </div>
 
                 <div className="form-group text-left">
