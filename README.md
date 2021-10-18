@@ -1,5 +1,5 @@
 # Factuurhub
-Factuurhub is een platform waar je je facturen kan bijhouden en sorten op betaald of op te betalen.
+Factuurhub is een platform waar je je facturen kan bijhouden en sorteren op betaald of op te betalen.
 
 ## Installatie
 1. Clone deze github
