@@ -10,6 +10,7 @@ import {
   Route
 } from "react-router-dom";
 import Alert from './components/Alert/Alert';
+import FactuurForm from './components/Factuur/FactuurForm';
 
 function App() {
   
@@ -31,6 +32,9 @@ function App() {
           </Route>
           <PrivateRoute path="/home">
             <Home/>
+          </PrivateRoute>
+          <PrivateRoute path="/voegfactuurtoe">
+            <FactuurForm showError={updateErrorMessage} />
           </PrivateRoute>
         </Switch>
         <Alert errorMessage={errorMessage} hideError={updateErrorMessage}/>

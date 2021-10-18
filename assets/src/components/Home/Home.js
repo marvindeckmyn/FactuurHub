@@ -51,6 +51,10 @@ function Home(props) {
         props.history.push('/login');
     }
 
+    const redirectToFactuurToevoegen = () => {
+        props.history.push('/voegfactuurtoe');
+    }
+
     return (
         <div className="mt-2">
             <h1>Facturen</h1>
@@ -66,6 +70,10 @@ function Home(props) {
                     paidInvoices.map(paidInvoice => <li key={paidInvoice.ID}>{paidInvoice.OndernemingNaam} ({paidInvoice.Factuurnummer})</li>)
                 }
             </ul>
+
+            <div className="voegFactuurMessage">
+                <span className="voegFactuurText" onClick={() => redirectToFactuurToevoegen()}>Voeg een factuur toe</span>
+            </div>
         </div>
     )
 }
