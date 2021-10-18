@@ -94,10 +94,10 @@ return (
             <li>BTW nummer onderneming: {invoice.OndernemingBtwNummer}</li>
             <li>Bankrekeningnummer onderneming: {invoice.OndernemingBankrekeningNummer}</li>
             <li>Goederen: {invoice.Goederen}</li>
-            <li>Subtotaal: {invoice.Subtotaal}</li>
-            <li>BTW %: {invoice.BtwPercentage}</li>
-            <li>BTW prijs: {invoice.BtwPrijs}</li>
-            <li>Totaal: {invoice.Totaal}</li>
+            <li>Subtotaal: € {invoice.Subtotaal}</li>
+            <li>BTW percentage: {invoice.BtwPercentage}%</li>
+            <li>BTW prijs: € {invoice.BtwPrijs}</li>
+            <li>Totaal: € {invoice.Totaal}</li>
             <li>Betalingsstatus: {betalingsstatus}</li>
         </ul>
 
