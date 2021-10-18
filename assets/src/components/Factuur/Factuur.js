@@ -6,6 +6,7 @@ import axios from "axios";
 function Factuur(props) {
     const [invoice, setInvoice] = useState([])
     const [betalingsstatus, setBetalingsstatus] = useState([])
+    const [paidMessage, setPaidMessage] = useState([])
 
     useEffect(() => {
         axios.get(API_BASE_URL + "/invoices/" + localStorage.getItem("factuurId"), { headers: { 'Authorization': localStorage.getItem(ACCESS_TOKEN) } })
@@ -14,8 +15,10 @@ function Factuur(props) {
 
                 if (response.data.data.Betalingsstatus === 1) {
                     setBetalingsstatus("Te betalen")
+                    setPaidMessage("Ik heb betaald")
                 } else {
                     setBetalingsstatus("Betaald")
+                    setPaidMessage("")
                 }
 
                 if (response.status !== 200) {
@@ -27,12 +30,41 @@ function Factuur(props) {
             });
     }, [])
 
+    const [state, setState] = useState({
+        betalingsstatus: "",
+        successMessage: null
+    })
+
+    const updateInvoice = (e) => {
+        e.preventDefault();
+        const payload={
+            "betalingsstatus": 2,
+        }
+
+        axios.put(API_BASE_URL+"/invoices/"+localStorage.getItem("factuurId"), payload, { headers: { 'Authorization': localStorage.getItem(ACCESS_TOKEN) } })
+        .then(function (response) {
+            if (response.status === 200) {
+                setState(prevState => ({
+                    ...prevState,
+                    'successMessage' : 'Factuur succesvol betaald. Je wordt naar de factuurhub gestuurd...'
+                }))
+                redirectToHome();
+                props.showError(null);
+            } else {
+                props.showError("Error");
+            }
+        })
+        .catch(function (error) {
+            console.log(error)
+        });
+    }
+
     function deleteInvoice() {
         axios.delete(API_BASE_URL + "/invoices/" + localStorage.getItem("factuurId"), { headers: { 'Authorization': localStorage.getItem(ACCESS_TOKEN) } })
             .then(function (response) {
                 if (response.status === 200) {
                     redirectToHome();
-                    props.showError(null)
+                    props.showError(null);
                 } else {
                     props.showError("Error");
                 }
@@ -68,6 +100,8 @@ return (
             <li>Totaal: {invoice.Totaal}</li>
             <li>Betalingsstatus: {betalingsstatus}</li>
         </ul>
+
+        <button type="submit" className="btn btn-primary" onClick={updateInvoice}>{paidMessage}</button>
 
         <div classname="mt-2">
             <button className="deleteText" onClick={() => deleteInvoice()}>Delete</button>

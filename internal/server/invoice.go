@@ -93,9 +93,10 @@ func indexInvoice(ctx *gin.Context) {
 }
 
 func updateInvoice(ctx *gin.Context) {
-	jsonInvoice := new(store.Invoice)
-	if err := ctx.Bind(jsonInvoice); err != nil {
-		ctx.AbortWithStatusJSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+	paramID := ctx.Param("id")
+	id, err := strconv.Atoi(paramID)
+	if err != nil {
+		ctx.AbortWithStatusJSON(http.StatusBadRequest, gin.H{"error": "Not valid ID"})
 		return
 	}
 	user, err := currentUser(ctx)
@@ -103,23 +104,24 @@ func updateInvoice(ctx *gin.Context) {
 		ctx.AbortWithStatusJSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 		return
 	}
-	dbInvoice, err := store.FetchInvoice(jsonInvoice.ID)
+	invoice, err := store.FetchInvoice(id)
 	if err != nil {
 		ctx.AbortWithStatusJSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 		return
 	}
-	if user.ID != dbInvoice.UserID {
+	if user.ID != invoice.UserID {
 		ctx.AbortWithStatusJSON(http.StatusForbidden, gin.H{"error": "Not authorized"})
 		return
 	}
-	jsonInvoice.ModifiedAt = time.Now()
-	if err := store.UpdateInvoice(jsonInvoice); err != nil {
+	invoice.ModifiedAt = time.Now()
+	invoice.Betalingsstatus = 2
+	if err := store.UpdateInvoice(invoice); err != nil {
 		ctx.AbortWithStatusJSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 		return
 	}
 	ctx.JSON(http.StatusOK, gin.H{
 		"msg":  "Invoice updated successfully",
-		"data": jsonInvoice,
+		"data": invoice,
 	})
 }
 
